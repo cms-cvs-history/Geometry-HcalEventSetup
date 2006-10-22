@@ -1,0 +1,9 @@
+<use name=Geometry/HcalEventSetup>
+<use name=DataFormats/HcalDetId>
+<use name=FWCore/Framework>
+<use name=FWCore/MessageLogger>
+<use name=FWCore/ParameterSet>
+
+<library file=HcalDDDGeometryAnalyzer.cc name=testHcalDDDGeometryESProducer>
+<flags SEAL_PLUGIN_NAME="testHcalDDDGeometryESProducer">
+</library>
