@@ -5,5 +5,5 @@
 <use name=FWCore/ParameterSet>
 
 <library file=HcalDDDGeometryAnalyzer.cc name=testHcalDDDGeometryESProducer>
-<flags SEAL_PLUGIN_NAME="testHcalDDDGeometryESProducer">
+<flags EDM_PLUGIN=1>
 </library>
