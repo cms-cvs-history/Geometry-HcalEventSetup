@@ -3,4 +3,4 @@
 #
 
 es_module = HcalDDDGeometryEP {}
-es_module = CaloGeometryBuilder {}
+es_module = CaloGeometryBuilder { vstring SelectedCalos = {"HCAL"} }
