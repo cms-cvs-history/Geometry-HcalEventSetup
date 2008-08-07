@@ -1,3 +1,0 @@
-include "Geometry/HcalEventSetup/data/HcalHardcodeGeometry.cfi"
-include "Geometry/HcalEventSetup/data/HcalTopology.cfi"
-include "Geometry/HcalEventSetup/data/CaloTowerGeometry.cfi"
