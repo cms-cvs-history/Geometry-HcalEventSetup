@@ -1,6 +1,0 @@
-#
-# This cfi should be included to build the HCAL geometry model using DDD
-#
-
-es_module = HcalDDDGeometryEP {}
-es_module = CaloGeometryBuilder { vstring SelectedCalos = {"HCAL"} }
