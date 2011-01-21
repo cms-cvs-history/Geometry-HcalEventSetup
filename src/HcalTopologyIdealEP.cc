@@ -13,7 +13,7 @@
 //
 // Original Author:  Jeremiah Mans
 //         Created:  Mon Oct  3 11:35:27 CDT 2005
-// $Id: HcalTopologyIdealEP.cc,v 1.3 2008/04/21 22:18:19 heltsley Exp $
+// $Id: HcalTopologyIdealEP.cc,v 1.4 2010/03/26 19:56:09 sunanda Exp $
 //
 //
 
@@ -34,7 +34,8 @@
 //
 HcalTopologyIdealEP::HcalTopologyIdealEP(const edm::ParameterSet& conf) :
   m_restrictions(conf.getUntrackedParameter<std::string>("Exclude","")),
-  m_h2mode(conf.getUntrackedParameter<bool>("H2Mode",false))
+  m_h2mode(conf.getUntrackedParameter<bool>("H2Mode",false)),
+  m_SLHCmode(conf.getUntrackedParameter<bool>("SLHCMode",false))
 {
    //the following line is needed to tell the framework what
    // data is being produced
@@ -55,9 +56,19 @@ HcalTopologyIdealEP::~HcalTopologyIdealEP()
 HcalTopologyIdealEP::ReturnType
 HcalTopologyIdealEP::produce(const IdealGeometryRecord& iRecord)
 {
-   if (m_h2mode) edm::LogInfo("HCAL") << "Using H2 Topology";
-
-   ReturnType myTopo(new HcalTopology(m_h2mode));
+	using namespace edm::es;
+	HcalTopology::Mode mode=HcalTopology::md_LHC;
+	
+	if (m_h2mode){
+		edm::LogInfo("HCAL") << "Using H2 Topology";
+		mode=HcalTopology::md_H2;	
+	}
+	if (m_SLHCmode) {
+		edm::LogInfo("HCAL") << "Using SLHC Topology";
+		mode=HcalTopology::md_SLHC;
+	}
+	
+   ReturnType myTopo(new HcalTopology(mode));
 
    HcalTopologyRestrictionParser parser(*myTopo);
    if (!m_restrictions.empty()) {
