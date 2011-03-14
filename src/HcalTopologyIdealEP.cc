@@ -13,7 +13,7 @@
 //
 // Original Author:  Jeremiah Mans
 //         Created:  Mon Oct  3 11:35:27 CDT 2005
-// $Id: HcalTopologyIdealEP.cc,v 1.4 2010/03/26 19:56:09 sunanda Exp $
+// $Id: HcalTopologyIdealEP.cc,v 1.4.2.1 2011/01/21 23:03:26 rpw Exp $
 //
 //
 
@@ -37,9 +37,21 @@ HcalTopologyIdealEP::HcalTopologyIdealEP(const edm::ParameterSet& conf) :
   m_h2mode(conf.getUntrackedParameter<bool>("H2Mode",false)),
   m_SLHCmode(conf.getUntrackedParameter<bool>("SLHCMode",false))
 {
-   //the following line is needed to tell the framework what
-   // data is being produced
-   setWhatProduced(this);
+  // copied from HcalHitRelabeller, input like {1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,4}
+  m_segmentation.resize(29);
+  std::vector<int> segmentation;
+  for (int iring=1; iring<=29; ++iring) {
+    char name[10];
+    snprintf(name,10,"Eta%d",iring);
+    if(conf.existsAs<std::vector<int> >(name, false))
+    {
+      RingSegmentation entry;
+      entry.ring = iring;
+      entry.segmentation = conf.getUntrackedParameter<std::vector<int> >(name);
+      m_segmentation.push_back(entry);
+    }
+  }
+  setWhatProduced(this);
 }
 
 
@@ -78,6 +90,12 @@ HcalTopologyIdealEP::produce(const IdealGeometryRecord& iRecord)
      }
    }
 
+   // see if any depth segmentation needs to be added
+   for(std::vector<RingSegmentation>::const_iterator ringSegItr = m_segmentation.begin();
+       ringSegItr != m_segmentation.end(); ++ringSegItr)
+   {
+     myTopo->setDepthSegmentation(ringSegItr->ring, ringSegItr->segmentation);
+   } 
    return myTopo ;
 }
 

@@ -30,6 +30,12 @@ private:
       // ----------member data ---------------------------
   std::string m_restrictions;
   bool m_h2mode, m_SLHCmode;
+  // can be specified in the config
+  struct RingSegmentation {
+    int ring;
+    std::vector<int> segmentation;
+  };
+  std::vector<RingSegmentation> m_segmentation;
 };
 
 
