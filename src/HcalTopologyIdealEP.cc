@@ -98,6 +98,8 @@ HcalTopologyIdealEP::produce(const IdealGeometryRecord& iRecord)
       ringSegItr != m_segmentation.end(); ++ringSegItr) {
     myTopo->setDepthSegmentation(ringSegItr->ring, ringSegItr->segmentation);
   } 
+  // fill vector in HcaTopology.cc with max depth for each HE ring
+  myTopo->setMaxLayersDepth();
   return myTopo ;
 }
 
